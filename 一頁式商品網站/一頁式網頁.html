@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+
+    <title>全民動起來</title>
+     <style>
+	   .banner{
+	    background-image: url(img/bicycle01.jpg);
+	    height: 280px;
+	   }
+	   .bg-cover{
+	    background-position: center center;
+	    background-size: cover;
+	   }
+     .text{
+        background-color: rgba(0, 0, 0, .5);
+      }
+	   .carousel-caption{
+	    background-color: rgba(0, 0, 0, 0.5);
+	   }
+	   .mylist{
+	   	list-style-type: none;
+	   }
+     @media screen and (max-width: 768px){
+      .text-block{
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border-radius: 15px;
+        box-shadow: 2px 2px 2px 2px #DFD8D8;
+      }
+     }
+
+	 </style>
+  </head>
+  <body>
+  	<!-- ********1*********** -->
+  	<section class="bg-secondary">
+  		<div class="container">
+  			<div class="row justify-content-end py-1">
+  				<a href="https://zh-tw.facebook.com"><i class="fab fa-facebook-square text-white"></i></a>
+  				<a href="https://twitter.com/?lang=zh-tw"><i class="fab fa-twitter-square text-white"></i></a>
+  			</div>
+  		</div>
+  	</section>
+  	<!-- ********2*********** -->
+    <section class="bg-dark wow animate__animated animate__fadeInDown">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+            <i class="fas fa-running mr-2 text-danger fa-2x animate__animated animate__bounceInLeft"></i>體育用品店
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#"><i class="fas fa-house-user text-primary fa-2x"></i>首頁 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><i class="fas fa-users text-center fa-2x"></i>關於我們</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-briefcase text-light fa-2x"></i>產品介紹
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">ALL</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">排球</a>
+                    <a class="dropdown-item" href="#">籃球</a>
+                    <a class="dropdown-item" href="#">桌球</a>
+                  </div>
+                </li>
+                <li class="nav-item active">
+              <a class="nav-link d-none" href="#" id="member_only">會員福利 <span class="sr-only">(current)</span></a>
+            </li>   
+              </ul>
+               <form class="form-inline my-2 my-lg-0">
+                <a href="#loginModal" data-toggle="modal" class="btn btn-outline-primary mr-1 " id="modal_login_btn">登入</a>
+                <a href="#registerModal" data-toggle="modal" class="btn btn-primary" id="modal_register_btn">註冊</a>
+                 <a href="#" id="modal_loginout_btn" class="d-none">會員登出</a>
+              </form>
+            </div>
+          </nav>
+      </div>
+    </section>
+
+    <!-- loginModal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-success">
+            <h5 class="modal-title font-weight-bold text-white" id="exampleModalLabel">會員登入</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="login_username">帳號</label>
+              <input type="text" class="form-control" id="login_username" name="login_username">
+            </div>
+            <div class="form-group">
+              <label for="login_password">密碼</label>
+              <input type="password" class="form-control" id="login_password" name="login_password">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#registerModal" data-toggle="modal" data-dismiss="modal">還沒有帳號, 註冊新帳號!</a>
+            <button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" id="login_btn">登入</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- registerModal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header bg-warning">
+            <h5 class="modal-title font-weight-bold text-white" id="exampleModalLabel">會員註冊</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <h3>會員條款</h3>
+                <p>1.東莞公司學習無法相關圖片教材網際快車重視聯通屬於安徽，可是世紀有利於體制辦公例如門口，轉載再次開放。</p>
+                <p>2.東莞公司學習無法相關圖片教材網際快車重視聯通屬於安徽，可是世紀有利於體制辦公例如門口，轉載再次開放。</p>
+                <p>3.東莞公司學習無法相關圖片教材網際快車重視聯通屬於安徽，可是世紀有利於體制辦公例如門口，轉載再次開放。</p>
+                <p>4.東莞公司學習無法相關圖片教材網際快車重視聯通屬於安徽，可是世紀有利於體制辦公例如門口，轉載再次開放。</p>
+                <p>5.東莞公司學習無法相關圖片教材網際快車重視聯通屬於安徽，可是世紀有利於體制辦公例如門口，轉載再次開放。</p>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="">帳號</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="">密碼</label>
+                  <input type="password" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="">確認密碼</label>
+                  <input type="password" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="">手機</label>
+                  <input type="text" class="form-control">
+                </div>  
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    遵守會員條款!
+                  </label>
+                </div>              
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <a href="#loginModal" data-toggle="modal" data-dismiss="modal">已經有帳號, 登入帳號!</a>
+            <button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary">註冊</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  	
+
+    	<!-- ***********3*********** -->
+      <div class="row wow animate__animated animate__fadeInDown" data-wow-duration="2s" data-wow-delay="1s">
+        <div class="col-12">
+
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+          <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+        </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active bg-cover"  style="background-image: url(img/p11.jpg); height: 480px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>為了強大而運動,因運動而強大</h5>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Aliquam, molestias.</p>
+        </div>
+      </div>
+      <div class="carousel-item bg-cover" style="background-image: url(img/p12.jpg); height: 480px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>為了強大而運動,因運動而強大</h5>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Aliquam, molestias.</p>
+        </div>
+      </div>
+      <div class="carousel-item bg-cover" style="background-image: url(img/p13.jpg); height: 480px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>為了強大而運動,因運動而強大</h5>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Aliquam, molestias.</p>
+        </div>
+      </div>
+    </div>
+      <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>	
+     </div>
+      </div>
+
+      <!-- ***********4*********** -->
+       <section class="bg-secondary wow animate__animated animate__fadeInDown" data-wow-duration="2s" data-wow-delay="3s">
+      
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4 text-center text-white pt-5 pb-3 px-3">
+              <i class="fas fa-volleyball-ball fa-8x text-warning"></i>
+              <h3>排球,是一種團體球類運動,雙方各6名球員上場,隔著排球網分立場地兩側,其目的在於用手擊球以令球落至對方場中地面而得分。</h3>
+            </div>
+            <div class="col-md-4 text-center text-white pt-5 pb-3 px-3">
+              <i class="fas fa-basketball-ball fa-8x text-danger"></i>
+              <h3>籃球,為一種由兩隊參與,在一個長方形籃球場進行的球類運動,每隊出場5名隊员,可將球向任何方向傳、投、拍、滾或運,目的是將籃球投入對方球籃得分,並阻止對方獲得控球權或得分。</h3>
+            </div>
+            <div class="col-md-4 text-center text-white pt-5 pb-3 px-3">
+              <i class="fas fa-table-tennis fa-8x text-dark"></i>
+              <h3>桌球是一種在世界上許多地方流行的球類運動,雙方球員手持球拍、隔著架有球網的球桌對打,可分為單打或雙打,兩方互相擊球直至一方無法回球,另一方便能得分。</h3>
+            </div>
+          </div>
+        </div>
+      
+       </section>
+
+      <!-- ***********5*********** -->
+      <section style="position: relative;">
+        <div class="row wow animate__animated animate__fadeIn" data-wow-duration="3s" data-wow-delay=".5s">
+          <div class="col-md-5" style="position: absolute; 
+          background-image: url(img/p6.jpg); top: 0; bottom: 0;"></div>
+        </div>
+        <div class="container">
+          <div class="row justify-content-end">
+            <div class="col-md-7 text-block">
+              <h3 class="mt-3 wow animate__animated animate__zoomIn" data-wow-duration="3s" data-wow-delay="1.5s">為什麼要運動 ?</h3>
+              <p class="wow animate__animated animate__zoomIn" data-wow-duration="3s" data-wow-delay="1.5s"> 運動有益活化腦力,讓海馬迴增厚進而延緩失智症狀...降低血糖、高血壓,減少心血管疾病的發生運動能加速體內脂肪、蛋白質、醣的分解,因此現代人常見的疾病,如：糖尿病、高血壓、中風,都能有顯著的預防效果。 延年益壽運動能增加身體代謝、增強免疫力，還能延緩生理機能衰退。</p>
+              <a href="#" class="btn btn-outline-info bgcbtnstyle wow animate__animated animate__zoomIn" data-wow-duration="3s" data-wow-delay="1s">查看更多</a>
+              <div class="row">
+                <div class="col-md-6 wow animate__animated animate__flipInX" data-wow-duration="2s" data-wow-delay="1.5s">
+                  <h3>運動的好處</h3>
+                  <p>減少肌肉萎縮、減緩骨質疏鬆、增加心肺活量、降低血中膽固醇、強化心臟肌肉、擴大心臟容量、增加心臟耐受力、增大心臟最大血液輸出量、增加身體各器官對荷爾蒙的敏感度、增強體內免疫力...</p>
+                </div>
+                <div class="col-md-6 wow animate__animated animate__flipInX" data-wow-duration="2s" data-wow-delay="2s">
+                  <h3>與家人一起運動</h3>
+                  <p>喜愛運動的父母可以成為孩子的榜樣，有助提升孩童參與運動的興趣，以家庭為核心的體育運動，可以加強家庭聯繫亦能增強親子與手足間的關係</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ***********6*********** -->
+      <section class="my-3" >
+        <div class="container">
+          <div class="h2 wow animate__animated animate__flip" data-wow-duration="2s" data-wow-delay="1s" data-wow-iteration="2" style="font-weight: bold; text-align: center;">常見運動用品項目</div>
+          <div class="row mt-3 wow animate__animated animate__fadeIn" data-wow-duration="3s" data-wow-delay="3s">
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="mr-3 pt-3">
+                  <i class="fas fa-baseball-ball fa-4x"></i>
+                </div>
+                <div>
+                  <h3>棒球</h3>
+                  <p>棒球,又稱野球,為一種團體球類運動,由人數最少為9人的两支队伍在一個扇形的球場进行攻擊與守備。</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="mr-3 pt-3">
+                  <i class="fas fa-bowling-ball fa-4x"></i>
+                </div>
+                <div>
+                  <h3>保齡球</h3>
+                  <p>保齡球又叫“地滾球”,最初叫“九柱戲”,起源於德國,是一種在木板球道上用球滾擊木瓶的室內體育運動。</p>
+                </div>
+              </div>
+            </div>
+            </div>
+
+            <div class="row mt-3 wow animate__animated animate__fadeIn" data-wow-duration="3s" data-wow-delay="3s">
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="mr-3 pt-3">
+                  <i class="fas fa-biking fa-4x"></i>
+                </div>
+                <div>
+                  <h3>單車</h3>
+                  <p>有以參加正式的單車競技為目的,有想挑戰山路為目的,還有騎單車通勤或是逛街……依據目地和用途來選擇最適合的單車</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="mr-3 pt-3">
+                  <i class="fas fa-swimmer fa-4x"></i>
+                </div>
+                <div>
+                  <h3>游泳</h3>
+                  <p>游泳是在水中靠浮力,借自身肢體的動作在水中運動前進的運動和技能。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!----------------- 7----------------------->
+  <section class="section mt-3 my-3 wow animate__animated animate__fadeIn" data-wow-duration="3s" data-wow-delay="5s" style="position: relative;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 text-block" style="z-index: 1;">
+          <dl class="row">
+            <dt class="col-sm-3">Description lists</dt>
+            <dd class="col-sm-9">A description list is perfect for defining terms.</dd>
+
+            <dt class="col-sm-3">Term</dt>
+            <dd class="col-sm-9">
+              <p>Definition for the term.</p>
+              <p>And some more placeholder definition text.</p>
+            </dd>
+
+            <dt class="col-sm-3">Another term</dt>
+            <dd class="col-sm-9">This definition is short, so no extra paragraphs or anything.</dd>
+
+            <dt class="col-sm-3 text-truncate">Truncated term is truncated</dt>
+            <dd class="col-sm-9">This can be useful when space is tight. Adds an ellipsis at the end.</dd>
+
+            <dt class="col-sm-3">Nesting</dt>
+            <dd class="col-sm-9">
+              <dl class="row">
+                <dt class="col-sm-4">Nested definition list</dt>
+                <dd class="col-sm-8">I heard you like definition lists. Let me put a definition list inside your definition list.</dd>
+              </dl>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-end">
+      <div class="col-md-5 bg-cover" style="position: absolute; background-image: url(img/p7.jpg); top: 0; bottom: 0;"></div>
+    </div>
+  </section>
+
+     <!----------------- 8----------------------->
+    <section class="my-3">
+      <div class="container wow animate__animated animate__fadeIn" data-wow-duration="3s" data-wow-delay="1s">
+        <div class="row">
+          <div class="col-md-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2165.337382069048!2d120.66228247180457!3d24.11384007923466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693c576d208625%3A0xce81c168637bec3e!2z6Ie65Lit5biC56uL6Ie65Lit5bel5qWt6auY57Sa5Lit562J5a245qCh!5e0!3m2!1szh-TW!2stw!4v1630560930243!5m2!1szh-TW!2stw" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">姓名</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">電話</label>
+              <input type="phone" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">Email</label>
+              <input type="email" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">人數</label>
+              <input type="number" class="form-control">
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                男性
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+              <label class="form-check-label" for="exampleRadios2">
+                女性
+              </label>
+            </div>
+            <div class="text-right">
+              <a href="#" class="btn btn-secondary">取消</a>
+              <a href="#" class="btn btn-primary">確認</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>  
+
+    <!----------------- 9----------------------->
+    <section>
+      <div class="row">
+        <div class="col-md-6 bg-cover wow animate__animated animate__slideInLeft" data-wow-duration="3s" data-wow-delay="1s" style="background-image: url(img/p8.jpg); height: 360px;">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="text pl-3 py-4 ml-4 mt-4">
+                <small class="text-danger font-weight-bold">加入我們</small>
+                <h3 class="text-white">徵求一位行政助理,意者請投電子履歷!</h3>
+                <p class="text-white">連接讓她就有業務遊戲主人無比辦公不願意自然杭州邀請留在藥物，模擬發現遺憾效果以及眼裡依法又有自動桌面周圍管理，古代代理更為基層北方測試有時事項資訊方便基礎旁邊妻子分為文字，內心應當哈哈公主留言板人群給</p>
+                <a href="#" class="btn btn-outline-success">加入我們</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 bg-cover wow animate__animated animate__slideInRight" data-wow-duration="3s" data-wow-delay="1s" style="background-image: url(img/p9.jpg); height: 360px;">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="text pl-3 py-4 ml-4 mt-4">
+                <small class="text-danger font-weight-bold">加入我們</small>
+                <h3 class="text-white">徵求程式設計師一名, 意者請投電子履歷!</h3>
+                <p class="text-white">相冊經歷如今舉行加上口氣原，性質民間考研一起繼續蘋果出版植物數碼相機都不還，新疆有關魔獸形象通過都，一會化工衝擊回應衛生天下形象中華，學院矛盾才能肯定那天比如版面看法靈活所有人玩具找到早已影，難得機。</p>  
+                <a href="#" class="btn btn-outline-success">加入我們</a>            
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- *********** 10 *************-->
+    <section>
+      <div class="container">
+        <nav class="nav">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">雲端技術應用2021</a>
+          <a class="nav-link active" href="#">FB</a>
+          <a class="nav-link" href="#">Twitter</a>
+          <a class="nav-link" href="#">IG</a>
+          
+        </nav>    
+      </div>
+    </section>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="js/wow.min.js"></script>
+     <script>
+        new WOW().init();//初始化
+
+        //--------------
+        var dataJSON_login={};
+        var dataJSON_check_uid={};
+
+        $(function(){
+
+          //判斷會員是否已登入
+          if (getCookie("UID")!="") {
+
+            //---------ajax(確認是否有相同uid)
+
+            dataJSON_check_uid["uid"]=getCookie("UID");
+
+            $.ajax({
+              type:"POST",
+              url:"https://tcnr2021a03.000webhostapp.com/web/goku0715-checkUid.php",
+              data:JSON.stringify(dataJSON_check_uid),
+              dataType:"json",
+              contentType:"application/json;charset=utf-8",
+              success:reguid_checkdata,
+              error:function(){
+                alert("checkuid.api.php串接錯誤！！！！");
+              }
+            });
+
+          //---------ajax
+
+          }
+
+
+        //----會員登入監聽
+          $("#login_btn").bind("click",function(){
+            // console.log($("#login_username").val());
+            // console.log($("#login_password").val());
+
+            if ($("#login_username").val()!="" && $("#login_password").val()!="") {
+                    
+                    dataJSON_login["username"] = $("#login_username").val();
+                    dataJSON_login["password"] = $("#login_password").val();
+
+                    $.ajax({
+                          type:"POST",
+                          url:"https://tcnr2021a03.000webhostapp.com/web/goku0715-login-member.php",
+                          data:JSON.stringify(dataJSON_login),
+                          dataType:"json",
+                          contentType:"application/json;charset=utf-8",
+                          success:showdata_login,
+                          error:function(){
+                            alert("傳送失敗，https://tcnr2021a03.000webhostapp.com/web/goku0715-login-member.php");
+                          }
+
+                        });
+            }else{
+              //欄位有空白
+              alert("親愛的，您還有欄位尚未填寫，無法登入！");
+
+            }
+
+          
+
+          });//----會員登入監聽
+
+          //----會員登出監聽
+          $("#modal_loginout_btn").bind("click",function(){
+
+            setCookie("UID","",7);
+            location.href="https://tcnr2021a03.000webhostapp.com/web/goku0823-girl-index.html";
+
+          });//----會員登出監聽
+
+        });//function END
+
+
+//-----------------------------------
+      function showdata_login(data){
+
+        if (data.state) {
+          
+          //登入成功
+          alert(data.message);
+          $("#loginModal").modal('hide');
+          $("#modal_login_btn").addClass('d-none');//讓登入按鈕消失
+          $("#modal_register_btn").addClass('d-none');//讓註冊按鈕消失
+          $("#member_msg").html(dataJSON_login["username"]+"歡迎回來！");
+          $("#member_only").removeClass('d-none');//讓會員獨享按鈕出現
+          $("#modal_loginout_btn").removeClass('d-none');//讓會員登出按鈕出現
+          
+          setCookie('UID',data.UID,7);
+          
+        }else{
+          alert(data.message);
+          $("#login_username").val("");
+          $("#login_password").val("");
+        }
+      }
+
+
+      function reguid_checkdata(data){
+        if (data.state) {
+          console.log(data);
+          if (data.state) {
+            //alert("親愛的會員您好，歡迎回來！");
+            //location.href="member_list.html";
+            $("#modal_login_btn").addClass('d-none');//讓登入按鈕消失
+            $("#modal_register_btn").addClass('d-none');//讓註冊按鈕消失
+            $("#member_msg").html(data.data[0].Username+"歡迎回來！");
+            $("#member_only").removeClass('d-none');//讓會員獨享按鈕出現
+          }
+          
+
+        }else{
+
+          // alert("帳號已登出，請重新登入");
+          // setCookie("UID","",7);
+          
+        }
+      }
+
+        //-----取得cookie
+
+    function setCookie(cname,cvalue,exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      let expires = "expires=" + d.toGMTString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    </script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
