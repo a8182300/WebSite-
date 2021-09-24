@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+	<script src="js/jquery-2.1.0.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+	<script>
+		var dataJSON = {};
+		var dataJSON_check_usn = {};
+		var dataJSON_login = {};
+		var dataJSON_check_uid = {};
+		var flag_username= false;
+		var flag_password= false;
+		var flag_password_a= false;
+		var flag_email= false;
+		var flag_password_login= false;
+		var flag_username_login= false;
+		$(function(){
+			//判斷是否登入會員
+			if(getCookie("UID")!=""){ //判斷UID是否存在
+				//-確認是否有相同UID
+				dataJSON_check_uid["UID"] = getCookie("UID");
+
+				$.ajax({
+					type:"POST",
+					url:"20210729-member-checkUID.php",
+					data:JSON.stringify(dataJSON_check_uid),
+					dataType:"json",
+					contentType:"application/json;charset=utf-8",
+					success:showdata_check_uid,
+					error:function(){
+						alert("error-20210729-member-checkUID.php");
+					}
+				})
+			}
+
+			//註冊監聽
+			$("#ok_btn").bind("click",function(){
+				if(flag_username && flag_password && flag_password_a && flag_email){
+				// console.log($("#username").val());
+				//{"username":"XX","password":"XX","email":"XX","bday":"XX","language":"XX","height":"XX","sex":"XX","hobby":"XX","blood":"XX"}
+
+				var radioAA ;
+				$.each($("input[name='myradio']:checked"),function(){
+					radioAA = $(this).val();;//針對已經掃描到且符合條件的會被push
+				});
+
+				var hobbyA = [];
+				$.each($("input[name='hobbyAA']:checked"),function(){
+					hobbyA.push($(this).val());
+				});
+				dataJSON["username"] = ($("#username").val());
+				dataJSON["password"] = ($("#password").val());
+				dataJSON["email"] = ($("#email").val());
+				dataJSON["bday"] = ($("#bday").val());
+				dataJSON["language"] = ($("#language").val());
+				dataJSON["height"] = ($("#height").val());
+				dataJSON["sex"] = ($("#sex").val());
+				dataJSON["hobby"] = (hobbyA.join());
+				dataJSON["blood"] = (radioAA);
+				// dataJSON["hobby"] = ($("#hobby").val());
+				// dataJSON["blood"] = ($("#blood").val());
+				console.log(JSON.stringify(dataJSON));
+				$.ajax({
+					type:"POST",
+					url:"20210719-member-reg.php",
+					data: JSON.stringify(dataJSON),
+					contentType: "application/json;charset=utf-8",
+					dataType: "json",
+					success: showdata,
+					error: function(){
+						alert("error-20210719-member-reg.php");
+					}
+
+				})
+				}else{
+					alert("欄位輸入有誤,請重新輸入~")
+				}
+			})
+			//登入按鈕監聽
+			$("#ok_btn_a").bind("click",function(){
+				if(flag_username_login && flag_password_login){
+					dataJSON_login["username"] = ($("#username_login").val());
+					dataJSON_login["password"] = ($("#password_login").val());
+						$.ajax({
+							type:"POST",
+							url:"20210722-login.php",
+							data:JSON.stringify(dataJSON_login),
+							contentType:"application/json;charset=utf-8",
+							dataType:"json",
+							success:showdata_login,
+							error:function(){
+							alert("error-20210722-login.php");
+							}
+						})
+				}else{
+					alert("欄位輸入有誤,請重新輸入~")
+				}
+
+			})
+
+			//註冊帳號是否重複即時監聽
+			$("#username").bind("input propertychange",function(){
+				if($(this).val().length >= 5){
+					dataJSON_check_usn["username"] = $(this).val();
+
+					$.ajax({
+						type:"POST",
+						url:"20210722-con.php",
+						data:JSON.stringify(dataJSON_check_usn),
+						dataType:"json",
+						contentType:"application/json;charset=utf-8",
+						success:showdata_check_uni,
+						error:function(){
+						alert("error-20210722-con.php");
+						}
+					})
+
+					$("#err_username").html("");
+					flag_username= true;
+				}else{
+					$("#err_username").html("帳號不得少於5個字");
+					$("#err_username").css("color","red");
+					flag_username= false;
+				}	
+			})
+
+			//註冊密碼即時監聽
+			$("#password").bind("input propertychange",function(){
+				if($(this).val().length >= 8){
+					$("#err_password").html("");
+					flag_password= true;
+				}else{
+					$("#err_password").html("密碼不得少於8個字");
+					$("#err_password").css("color","red");
+					flag_password= false;
+				}	
+			})
+
+			//註冊確認密碼即時監聽
+			$("#password_a").bind("input propertychange",function(){
+				if($(this).val() == $("#password").val()){
+					$("#err_password_a").html("");
+					flag_password_a= true;
+				}else{
+					$("#err_password_a").html("確認密碼與密碼必須一致");
+					$("#err_password_a").css("color","red");
+					flag_password_a= false;
+				}	
+			})
+
+			//註冊email即時監聽
+			$("#email").bind("input propertychange",function(){
+				if($(this).val().length >= 8){
+					$("#err_email").html("");
+					flag_email= true;
+				}else{
+					$("#err_email").html("E-Mail不得少於8個字");
+					$("#err_email").css("color","red");
+					flag_email= false;
+				}	
+			})
+
+			//登入帳號即時監聽
+			$("#username_login").bind("input propertychange",function(){
+				if($(this).val() != "" ){
+					$("#err_username_login").html("");
+					flag_username_login= true;
+				}else{
+					$("#err_username_login").html("密碼不得為空白");
+					$("#err_username_login").css("color","red");
+					flag_username_login= false;
+				}	
+			})
+
+			//登入密碼即時監聽
+			$("#password_login").bind("input propertychange",function(){
+				if($(this).val() != "" ){
+					$("#err_password_login").html("");
+					flag_password_login= true;
+				}else{
+					$("#err_password_login").html("密碼不得為空白");
+					$("#err_password_login").css("color","red");
+					flag_password_login= false;
+				}	
+			})
+
+		})
+
+		function showdata(data){
+				console.log(data);
+			if(data.state){
+				alert(data.message);
+				location.href = "#member_l";
+			}else{
+				alert(data.message);
+				}
+		}
+
+		function showdata_check_uni(data){
+				console.log(data);
+				$("#err_username").html(data.message);
+				if(data.state){
+					$("#err_username").css("color","green");
+					//成功綠色
+					flag_username= true;
+					//旗子成功判斷
+				}else{
+					$("#err_username").css("color","red");
+					//失敗紅色
+					flag_username= false;
+					//旗子失敗判斷
+				}
+		}
+
+		function showdata_login(data){
+			console.log(data);
+			// alert(data.UID);
+			if(data.state){
+				setCookie('UID',data.UID,7);
+			       //  NAME    參數     天數
+				alert(data.message);
+				location.href="https://tcnr2021a03.000webhostapp.com/web/20210722-mem-c.html";
+			}else{
+				alert(data.message);
+				}
+		}
+
+		function showdata_check_uid(data){
+			console.log(data);
+			if(data.state) {
+				alert(data.message);
+				location.href = "https://tcnr2021a03.000webhostapp.com/web/20210722-mem-c.html";
+			}else{
+				alert("帳號已登出!請重新登入~!")
+				location.href = "#member_l";
+			}
+		}
+
+
+		//-------Cookie 的function-----------
+		function setCookie(cname, cvalue, exdays) {
+		  const d = new Date();
+		  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+		  let expires = "expires="+d.toUTCString();
+		  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+
+		function getCookie(cname) {
+		  let name = cname + "=";
+		  let ca = document.cookie.split(';');
+		  for(let i = 0; i < ca.length; i++) {
+		    let c = ca[i];
+		    while (c.charAt(0) == ' ') {
+		      c = c.substring(1);
+		    }
+		    if (c.indexOf(name) == 0) {
+		      return c.substring(name.length, c.length);
+		    }
+		  }
+		  return "";
+		}
+	</script>
+</head>
+<body>
+
+	
+	<!-- 註冊頁面 -->
+	<div data-role="page" id="home">
+		<div data-role="header" data-theme="b" data-position="fixed">
+			<a href="#member_l" data-role="button" data-theme="b" data-icon="user"  class="ui-btn-right">登入</a>
+			<h1>會員註冊</h1>
+
+		</div>
+		<div role="main" class="ui-content">
+			<div data-role="fieldcontain">
+				<label for="username">帳號</label>
+				<input type="text" name="username" id="username" placeholder="帳號不得少於5個字">
+			</div>
+			<div id="err_username"></div>
+
+			<div data-role="fieldcontain">
+				<label for="password">密碼</label>
+				<input type="password" name="password" id="password" placeholder="密碼不得少於8個字">
+			</div>
+			<div id="err_password"></div>
+
+			<div data-role="fieldcontain">
+				<label for="password_a">確認密碼</label>
+				<input type="password" name="password_a" id="password_a" placeholder="確認密碼與密碼必須一致">
+			</div>
+			<div id="err_password_a"></div>
+
+			<div data-role="fieldcontain">
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" placeholder="E-Mail不得少於8個字">
+			</div>
+			<div id="err_email"></div>
+
+			<div data-role="fieldcontain">
+				<label for="bday">生日</label>
+				<input type="date" name="bday" id="bday">
+			</div>
+			<div data-role="fieldcontain">
+				<label for="language">慣用語言</label>
+				<select name="language" id="language">
+					<option value="中文">中文</option>
+					<option value="韓文">韓文</option>
+					<option value="日文">日文</option>
+					<option value="英文">英文</option>
+					<option value="西班牙文">西班牙文</option>
+					<option value="泰文">泰文</option>
+					<option value="其他">其他</option>
+				</select>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="height">身高(公分)</label>
+				<input type="range" name="height" id="height" value="160" min="100" max="200" step="1"></input>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="sex">性別</label>
+				<select data-role="slider" name="sex" id="sex">
+					<option value="男生">男生</option>
+					<option value="女生">女生</option>
+				</select>
+			</div>
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" id="hobby">
+					<legend>興趣</legend>	
+					<input type="checkbox" id="check01" name="hobbyAA" value="看電影">
+					<label for="check01">看電影</label>	
+			
+					<input type="checkbox" id="check02" name="hobbyAA" value="唱歌">
+					<label for="check02">唱歌</label>	
+			
+					<input type="checkbox" id="check03" name="hobbyAA" value="烘培">
+					<label for="check03">烘培</label>
+			
+					<input type="checkbox" id="check04" name="hobbyAA" value="爬山">
+					<label for="check04">爬山</label>	
+
+					<input type="checkbox" id="check05" name="hobbyAA" value="睡覺">
+					<label for="check05">睡覺</label>	
+
+					<input type="checkbox" id="check06" name="hobbyAA" value="看書">
+					<label for="check06">看書</label>	
+				</fieldset>
+			</div>
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal" id="blood">
+					<legend>血型(單選)</legend>
+					<input type="radio" id="radio01" name="myradio" value="A型">
+					<label for="radio01">A型</label>
+			
+					<input type="radio" id="radio02" name="myradio" value="B型">
+					<label for="radio02">B型</label>
+			
+					<input type="radio" id="radio03" name="myradio" value="O型">
+					<label for="radio03">O型</label>
+			
+					<input type="radio" id="radio04" name="myradio" value="AB型">
+					<label for="radio04">AB型</label>
+					
+				</fieldset>
+			</div>
+			<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<a href="#" data-role="button" data-theme="b" data-icon="delete" id="cxl_btn">取消註冊</a>
+					</div>
+					<div class="ui block b">
+						<a href="#" data-role="button" data-theme="b" data-icon="check" id="ok_btn">確認註冊</a>
+					</div>
+			</div>
+		<!-- 中段結尾 -->
+		</div> 
+		<div data-role="footer" data-theme="b" data-position="fixed">
+			<h1>頁尾</h1>
+		</div>
+	</div>
+<!-- 會員登入 -->
+		<div data-role="page" id="member_l">
+			<div data-role="header" data-theme="b" data-position="fixed">
+				<h1>會員登入</h1>
+			</div>
+			<div role="main" class="ui-content">
+				<div data-role="fieldcontain">
+					<label for="username_login">帳號</label>
+					<input type="text" name="username_login" id="username_login" placeholder="帳號不得為空白">
+				</div>
+				<div id="err_username_login"></div>
+
+				<div data-role="fieldcontain">
+					<label for="password_login">密碼</label>
+					<input type="password" name="password_login" id="password_login" placeholder="密碼不得為空白">
+				</div>
+				<div id="err_password_login"></div>
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<a href="#home" data-role="button" data-theme="b" data-icon="check" id="cancel_btn_a">取消</a>
+					</div>
+					<div class="ui block b">
+						<a href="#" data-role="button" data-theme="b" data-icon="check" id="ok_btn_a">登入</a>
+					</div>
+				</div>
+
+			</div>
+			<div data-role="footer" data-theme="b" data-position="fixed">
+				<h1>頁尾</h1>
+			</div>
+		</div>
+	
+
+</body>
+</html>

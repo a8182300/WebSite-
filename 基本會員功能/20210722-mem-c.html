@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+	<script src="js/jquery-2.1.0.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+</head>
+	<script>
+		$( document ).on( "pagecreate", "#member_c", function() {
+		   $( document ).on( "swipeleft swiperight", "#member_c", function( e ) {
+		    // We check if there is no open panel on the page because otherwise
+		    // a swipe to close the left panel would also open the right panel (and v.v.).
+		    // We do this by checking the data that the framework stores on the page element (panel: open).
+		    if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+		     if ( e.type === "swipeleft" ) {
+		      $( "#right-panel1" ).panel( "open" );
+		     } else if ( e.type === "swiperight" ) {
+		      $( "#left-panel1" ).panel( "open" );
+		       }
+		      }
+		  });
+		 });
+	</script>
+  <script>
+  	var dataJSON_D = {};
+  	var flag_email = false;
+  	var dataJSON_up = {};
+  	var dataJSON_check_uid =  {}; 	
+  	$(function(){
+  		//會員管理控制台確認登入
+  			if(getCookie("UID")!=""){ //判斷UID是否存在
+				//-確認是否有相同UID
+				dataJSON_check_uid["UID"] = getCookie("UID");
+
+				$.ajax({
+					type:"POST",
+					url:"20210729-member-checkUID.php",
+					data:JSON.stringify(dataJSON_check_uid),
+					dataType:"json",
+					contentType:"application/json;charset=utf-8",
+					success:showdata_check_uid,
+					error:function(){
+						alert("error-20210729-member-checkUID.php");
+					}
+				})
+			}else{
+				location.href = "https://tcnr2021a23.000webhostapp.com/web/20210729-member-reg.html#member_l";
+			}
+	
+
+  		$.ajax({
+  			type:"GET",
+  			url:"20210722-member-R.php",
+  			dataType:"json",
+  			async:false,   //關閉同步
+  			success: showdata,
+  			error:function(){
+  				alert("error-20210722-member-R.php");
+  			}
+
+  		})
+  		//登出按鈕監聽
+  		$("#btn_logout").bind("click",function(){
+  			setCookie("UID","",7);
+  			location.href = "https://tcnr2021a23.000webhostapp.com/web/20210729-member-reg.html#member_l";
+  		})
+
+
+  		//del_btn 監聽
+  		$("#show_msg #del_btn").bind("click",function(){
+
+  			dataJSON_D["ID"] = $(this).data("id");
+
+  			var result = confirm("刪除後資料將會不見，您確定要刪除嗎？");
+  			if(result){
+  				$.ajax({
+  					type:"POST",
+  					url:"20210726-member-D.php",
+  					data:JSON.stringify(dataJSON_D),
+  					dataType:"json",
+  					success:showdata_D,
+  					error:function(){
+  						alert("error-20210726-member-D.php");
+  					}
+  				})
+  			}else{
+  				alert("點擊取消，資料沒有被刪除!!")
+  			}
+  		})
+
+  		//up_btn監聽
+  		$("#show_msg #up_btn").bind("click",function(){
+  			$.mobile.changePage( "#update", { transition: "slideup", changeHash: false });
+  			// console.log($(this).data("id"));
+
+  			$("#idd").val($(this).data("id"));
+  			$("#username").val($(this).data("username"));
+  			$("#email").val($(this).data("email"));
+  			$("#bday").val($(this).data("bday"));
+  			$("#language").val($(this).data("language"));
+  			//selectmenu refresh
+  			$("#language").selectmenu('refresh')
+  			$("#height").val($(this).data("height"));
+  			$("#sex").val($(this).data("sex"));
+  			//slider refresh
+  			$("#sex").slider('refresh');
+  			$("#hobby").val($(this).data("hobby"));
+
+  			$("#blood").val($(this).data("blood"));
+
+
+  			//radiobox refresh
+  			$("input[value="+$(this).data("blood")+"]").attr("checked",true).checkboxradio("refresh");
+
+
+				//checkbox refresh
+				var hobbya = $(this).data("hobby");
+				var hobby_data = hobbya.split(',');
+				for(var i=0;i<hobby_data.length;i++){
+					var hobby_tmp = hobby_data[i];
+					$("input[value="+hobby_tmp+"]").attr("checked",true).checkboxradio("refresh");
+					}
+  			// 
+  		})
+
+  		//會員更新up_ok_btn 監聽
+  		$("#up_ok_btn").bind("click",function(){
+  			var radioAA ;
+				$.each($("input[name='myradio']:checked"),function(){
+						radioAA = $(this).val();//針對已經掃描到且符合條件的會被push
+				});
+
+				var hobbyA = [];
+				$.each($("input[name='hobbyAA']:checked"),function(){
+					hobbyA.push($(this).val());
+				});
+				dataJSON_up["ID"] = ($("#idd").val());
+				dataJSON_up["email"] = ($("#email").val());
+				dataJSON_up["bday"] = ($("#bday").val());
+				dataJSON_up["language"] = ($("#language").val());
+				dataJSON_up["height"] = ($("#height").val());
+				dataJSON_up["sex"] = ($("#sex").val());
+				dataJSON_up["hobby"] = (hobbyA.join());
+				dataJSON_up["blood"] = (radioAA);
+				// dataJSON_up["hobby"] = ($("#hobby").val());
+				// dataJSON_up["blood"] = ($("#blood").val());
+				console.log(JSON.stringify(dataJSON_up));
+				$.ajax({
+					type:"POST",
+					url:"20210726-member-U.php",
+					data: JSON.stringify(dataJSON_up),
+					contentType: "application/json;charset=utf-8",
+					dataType: "json",
+					success: showdata_up,
+					error: function(){
+						alert("error-20210726-member-U.php");
+					}
+
+				})
+  		})
+
+  		//email即時監聽----------
+			$("#email").bind("input propertychange",function(){
+				if($(this).val().length >= 8){
+					$("#err_email").html("");
+					flag_email= true;
+				}else{
+					$("#err_email").html("E-Mail不得少於8個字");
+					$("#err_email").css("color","red");
+					flag_email= false;
+				}	
+			})
+		//---------主function尾端---------
+  	})
+
+  
+  	//--------渲染事件-----------
+  	function showdata(data){
+  		console.log(data);
+  		$("#show_msg").empty();
+  		for(var i=0; i<data.data.length;i++){
+  			var strHTML = '<tr><td>'+data.data[i]["ID"]+'</td><td>'+data.data[i]["Username"]+'</td><td>'+data.data[i]["Email"]+'</td><td>'+data.data[i]["Bday"]+'</td><td>'+data.data[i]["Language"]+'</td><td>'+data.data[i]["Height"]+'</td><td>'+data.data[i]["Sex"]+'</td><td>'+data.data[i]["Hobby"]+'</td><td>'+data.data[i]["Blood"]+'</td><td>'+data.data[i]["Creat_at"]+'</td><td><button id="up_btn" data-id="'+data.data[i]["ID"]+'" data-username="'+data.data[i]["Username"]+'" data-email="'+data.data[i]["Email"]+'" data-bday="'+data.data[i]["Bday"]+'" data-language="'+data.data[i]["Language"]+'" data-height="'+data.data[i]["Height"]+'" data-sex="'+data.data[i]["Sex"]+'" data-hobby="'+data.data[i]["Hobby"]+'" data-blood="'+data.data[i]["Blood"]+'" >更新</button><button id="del_btn" data-id="'+data.data[i]["ID"]+'">刪除</button></td></tr>'
+  			
+  				$("#show_msg").append(strHTML);
+  		}
+  	}
+
+  	//--------刪除事件-----------
+	  	function showdata_D(data){
+	  		console.log(data);
+	  		if(data.state){
+	  			alert(data.message);
+	  			location.href = "https://tcnr2021a23.000webhostapp.com/web/20210722-mem-c.html"
+	  		}else{
+	  			alert(data.message);
+	  		}
+	  	}
+
+  	//---------更新事件-----------
+	  	function showdata_up(data){
+	  		console.log(data)
+	  			if(data.state){
+						alert(data.message);
+						location.href = "https://tcnr2021a23.000webhostapp.com/web/20210722-mem-c.html";
+					}else{
+						alert(data.message);
+						location.href = "https://tcnr2021a23.000webhostapp.com/web/20210722-mem-c.html";
+					}
+	  	}
+
+	  	//會員管理控制台登入function
+  		function showdata_check_uid(data){
+				console.log(data);
+				if(data.state) {
+					alert(data.message);
+					$("#user_message").html("會員管理控制台(" + data.data[0].Username + ")")
+				}else{ 
+					alert("帳號已登出!請重新登入~!")
+					location.href = "https://tcnr2021a23.000webhostapp.com/web/20210729-member-reg.html#member_l";
+							}
+			}
+
+
+
+  		//--------Cookie-----------
+
+  		function setCookie(cname, cvalue, exdays) {
+			  const d = new Date();
+			  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			  let expires = "expires="+d.toUTCString();
+			  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+			}
+
+  		function getCookie(cname) {
+			  let name = cname + "=";
+			  let ca = document.cookie.split(';');
+			  for(let i = 0; i < ca.length; i++) {
+			    let c = ca[i];
+			    while (c.charAt(0) == ' ') {
+			      c = c.substring(1);
+			    }
+			    if (c.indexOf(name) == 0) {
+			      return c.substring(name.length, c.length);
+			    }
+			  }
+			  return "";
+			}
+
+  </script>
+<body>
+<!-- 會員管理控制台 -->
+		<div data-role="page" id="member_c">
+			<!-- Panel -->
+		  <div data-role="panel" id="m_left_panel" data-display="overlay">
+		   <ul data-role="listview" data-inset="true">
+		    <li data-role="list-divider" data-theme="b">功能選單</li>
+		    <li><a href="https://tcnr2021a23.000webhostapp.com/web/20210722-mem-c.html">會員管理控制台</a></li>
+		    <li><a href="https://tcnr2021a23.000webhostapp.com/web/20210712-product.html" target="_black">新增產品</a></li>
+		    <li><a href="https://tcnr2021a23.000webhostapp.com/web/20210802-page01.html">功能01</a></li>
+		    <li><a href="https://tcnr2021a23.000webhostapp.com/web/20210802-page02.html">功能02</a></li>
+		    <li><a href="https://tcnr2021a23.000webhostapp.com/web/20210802-page03.html">功能03</a></li>
+		   </ul>
+
+		  </div>
+			<div data-role="header" data-theme="b" data-position="fixed">
+				<a href="#m_left_panel" data-role="button" data-theme="b" data-icon="home">選單</a>
+				<a href="#" data-role="button" data-theme="b" data-icon="check" class="ui-btn-right" id = "btn_logout">登出</a>
+				<h1 id="user_message">會員控制台</h1>
+			</div>
+			<div role="main" class="ui-content">
+				<h2>會員列表</h2>
+				<table data-role="table" class="ui-responsive table-stroke" border="1"  > 
+				<thead>
+					<tr>
+						<th>編號</th>
+						<th>帳號</th>
+						<th>E-Mail</th>
+						<th>生日</th>
+						<th>慣用語言</th>
+						<th>身高</th>
+						<th>性別</th>
+						<th>興趣</th>
+						<th>血型</th>
+						<th>註冊時間</th>
+						<th>功能</th>
+					</tr>
+				</thead>
+				<tbody id="show_msg">
+				</tbody>
+			</table>
+			</div>
+			<div data-role="footer" data-theme="b" data-position="fixed">
+				<h1>頁尾</h1>
+			</div>
+		</div>
+	
+	
+<!-- 會員更新 -->
+<div data-role="page" id="update">
+		<div data-role="header" data-theme="b" data-position="fixed">
+			<h1>首頁</h1>
+		</div>
+				<div role="main" class="ui-content">
+
+			<div data-role="fieldcontain">
+				<label for="idd">ID</label>
+				<input type="text" name="idd" id="idd" disabled="">
+			</div>
+
+			<div data-role="fieldcontain">
+				<label for="username">帳號</label>
+				<input type="text" name="username" id="username" placeholder="帳號不得少於5個字" disabled="">
+			</div>
+			<div id="err_username"></div>
+
+			<div data-role="fieldcontain">
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" placeholder="E-Mail不得少於8個字">
+			</div>
+			<div id="err_email"></div>
+
+			<div data-role="fieldcontain">
+				<label for="bday">生日</label>
+				<input type="date" name="bday" id="bday">
+			</div>
+			<div data-role="fieldcontain">
+				<label for="language">慣用語言</label>
+				<select name="language" id="language">
+					<option value="中文">中文</option>
+					<option value="韓文">韓文</option>
+					<option value="日文">日文</option>
+					<option value="英文">英文</option>
+					<option value="西班牙文">西班牙文</option>
+					<option value="泰文">泰文</option>
+					<option value="其他">其他</option>
+				</select>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="height">身高(公分)</label>
+				<input type="range" name="height" id="height" value="160" min="100" max="200" step="1"></input>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="sex">性別</label>
+				<select data-role="slider" name="sex" id="sex" disabled="">
+					<option value="男生">男生</option>
+					<option value="女生">女生</option>
+				</select>
+			</div>
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" id="hobby">
+					<legend>興趣</legend>	
+					<input type="checkbox" id="check01" name="hobbyAA" value="看電影">
+					<label for="check01">看電影</label>	
+			
+					<input type="checkbox" id="check02" name="hobbyAA" value="唱歌">
+					<label for="check02">唱歌</label>	
+			
+					<input type="checkbox" id="check03" name="hobbyAA" value="烘培">
+					<label for="check03">烘培</label>
+			
+					<input type="checkbox" id="check04" name="hobbyAA" value="爬山">
+					<label for="check04">爬山</label>	
+
+					<input type="checkbox" id="check05" name="hobbyAA" value="睡覺">
+					<label for="check05">睡覺</label>	
+
+					<input type="checkbox" id="check06" name="hobbyAA" value="看書">
+					<label for="check06">看書</label>	
+				</fieldset>
+			</div>
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal" id="blood" >
+					<legend>血型(單選)</legend>
+					<input type="radio" id="radio01" name="myradio" value="A型" >
+					<label for="radio01">A型</label>
+			
+					<input type="radio" id="radio02" name="myradio" value="B型" >
+					<label for="radio02">B型</label>
+			
+					<input type="radio" id="radio03" name="myradio" value="O型" >
+					<label for="radio03">O型</label>
+			
+					<input type="radio" id="radio04" name="myradio" value="AB型" >
+					<label for="radio04">AB型</label>
+					
+				</fieldset>
+			</div>
+
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<a href="#" data-role="button" data-theme="b" data-icon="delete" id="up_cxl_btn">取消更新</a>
+					</div>
+					<div class="ui block b">
+						<a href="#" data-role="button" data-theme="b" data-icon="check" id="up_ok_btn">確認更新</a>
+						
+					</div>
+				</div>
+
+		</div>
+		<div data-role="footer" data-theme="b" data-position="fixed">
+			<h1>頁尾</h1>
+		</div>
+	</div>
+
+
+
+</body>
+</html>
